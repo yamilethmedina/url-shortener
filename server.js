@@ -55,6 +55,33 @@ app.get('/new/:url(*)', function(req, res){
 	});
 });
 
-app.get('/:short_url', function(req, res){
+app.get('/:short_url', function(req, res, next){
   // route to redirect the visitor to their original URL given the short URL
+  MongoClient.connect(dbUrl, function (err, db) {
+	  if (err) {
+	    console.log("Unable to connect to server", err);
+	  } else {
+	    console.log("Connected to server");
+	    var collection = db.collection('links');
+	    var params = req.params.short;
+
+			var findLink = function(db, callback) {
+			     	
+			  collection.findOne({ "short": params }, { url: 1, _id: 0 }, function (err, doc) {
+		  if (doc != null) {
+		    res.redirect(doc.url);
+		  } else {
+		    res.json({ error: "No matching shortlink found in the database." });
+		  };
+		});
+	    	
+	   };
+	   findLink(db, function() {
+	   	
+	   	
+	   	db.close();
+	   	});
+
+		}
+	});
 });
