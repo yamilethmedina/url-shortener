@@ -55,7 +55,7 @@ app.get('/new/:url(*)', function(req, res){
 	});
 });
 
-app.get('/:short_url', function(req, res, next){
+app.get('/:short', function(req, res, next){
   // route to redirect the visitor to their original URL given the short URL
   MongoClient.connect(dbUrl, function (err, db) {
 	  if (err) {
