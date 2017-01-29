@@ -5,10 +5,10 @@ var validUrl = require('valid-url');
 
 var app = express();
 
-// var dbUrl = "mongodb://localhost:27017/url-shortener-microservice";
-var dbUrl = process.env.MONGOLAB_URI;
+var localDb = "mongodb://localhost:27017/url-shortener-microservice";
+var dbUrl = process.env.MONGOLAB_URI || localDb;
 
-var MongoClient = mongodb.MongoClient
+var MongoClient = mongodb.MongoClient;
 
 var port = 8080;
 app.listen(process.env.PORT || port,  function () {
@@ -22,6 +22,8 @@ app.get('/', function (req, res) {
 app.get('/new/:url(*)', function(req, res){
   // route to create and return a shortened URL given a long URL
   // res.send(req.params.url);
+  console.log(dbUrl);
+
   MongoClient.connect(dbUrl, function (err, db) {
 	  if (err) {
 	    console.log("Unable to connect to server", err);
@@ -29,7 +31,7 @@ app.get('/new/:url(*)', function(req, res){
 	    console.log("Connected to server");
 	    var collection = db.collection('links');
 	    var params = req.params.url;
-	    var local = "http://" + req.get('host'); + "/";
+	    var local = "http://" + req.get('host') + "/";
 	    var newLink = function(db, callback) {
 	    	if (validUrl.isUri(params)) {
 	   		// do stuff
