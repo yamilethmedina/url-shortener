@@ -29,7 +29,7 @@ app.get('/new/:url(*)', function(req, res){
 	    console.log("Connected to server");
 	    var collection = db.collection('links');
 	    var params = req.params.url;
-	    var local = req.get('host'); + "/"
+	    var local = "http://" + req.get('host'); + "/";
 	    var newLink = function(db, callback) {
 	    	if (validUrl.isUri(params)) {
 	   		// do stuff
