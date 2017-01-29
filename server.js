@@ -6,7 +6,7 @@ var validUrl = require('valid-url');
 var app = express();
 
 // var dbUrl = "mongodb://localhost:27017/url-shortener-microservice";
-var url = process.env.MONGOLAB_URI;
+var dbUrl = process.env.MONGOLAB_URI;
 
 var MongoClient = mongodb.MongoClient
 
