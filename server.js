@@ -29,6 +29,7 @@ app.get('/new/:url(*)', function(req, res){
 	    console.log("Connected to server");
 	    var collection = db.collection('links');
 	    var params = req.params.url;
+	    var local = req.get('host'); + "/"
 	    var newLink = function(db, callback) {
 	    	if (validUrl.isUri(params)) {
 	   		// do stuff
@@ -37,7 +38,7 @@ app.get('/new/:url(*)', function(req, res){
 	   		collection.insert([newUrl]);
 	   		res.json({
 	   			original_url: params,
-	   			short_url: "http://localhost:8080/" + shortCode
+	   			short_url: local + shortCode
 	   		});
 	   	} else {
 	   		// do other stuff
